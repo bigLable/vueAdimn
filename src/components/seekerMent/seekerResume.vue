@@ -1,56 +1,53 @@
 <template>
   <div >
-    <seekerInfo></seekerInfo>
+    <seekerInfo :userInfo="userInfo"></seekerInfo><br><br>
+    <seekerResume :userInfo="userInfo"></seekerResume>
   </div>
 </template>
 
 <script>
   import $ from 'jquery'
   import seekerInfo from '../seekerInfo'
+
+  import seekerResume from '../seekerResume'
   export default {
        data(){
       return {
-        
+       userInfo:[]
       }
     },
-    components: {seekerInfo},
+    components: {
+      seekerInfo,
+      seekerResume
+    },
     computed: {
-  
+        
     },
     methods: {
-        /**
-         * 获取给求职者推荐公司列表经过第一层求职者自身筛选
-         */
-         Selfscreening(address=null,category=null,market=null,name=null,id=''){
-          let that=this
-        $.ajax({
-            url: "http://192.168.0.199:10280/companyJob/selectCompanyJobByAuditAndNameAndCityAndMarketCategory",
-            data: {
-                count:that.currentSize,
-                number:that.currentPage-1,
-                address,
-                category,
-                market,
-                name,
-                userId:id
-            },
-            success: function (data) {
-              that.total=data.data.sum                   
-              that.companyArr=data.data.listMap
-        
-              
-           }
-        })
+      /**
+     * 求职者详情
+     */
+    SeekerDetail(seekerid) {
+      let that = this;
+      $.ajax({
+        url: "http://192.168.0.199:10280/employee/getFullEmployee",
+        data: {
+          employeeId:seekerid
+        },
+        success: function(data) {
+          that.userInfo = data.data;
+          console.log(JSON.stringify(data.data), "data.data");
+        }
+      });
+    }
          },
      
-   mounted:function(){
-     
-      /**
-       * 调用给求职者推荐公司列表方法 
-       * */ 
-    
+   mounted() {
+   
+    this.SeekerDetail(this.$route.query.seekerId)
+
    }
-  }
+  
   }
 </script>
 <style lang="scss" scoped>

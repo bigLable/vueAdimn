@@ -53,6 +53,7 @@
       <el-col :span="10" :offset="7">
         <div class="block">
           <el-pagination
+
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             @prev-click="upPage"
@@ -75,8 +76,8 @@
        data(){
       return {
          checked:true,
-        currentPage:1,
-        total:0,
+         currentPage:1,
+         total:0,
         currentSize:10,
         seekerArr:[],
       }
@@ -93,12 +94,11 @@
            $.ajax({
                url: "http://192.168.0.199:10280/employee/pageEmployee",
                data: {
-              page:that.currentPage-1,
-              isFirstCommit: 0,
-              limit:that.currentSize
+              page:page,
+              isFirstCommit:isFirstCommit,
+              limit:limit
               },
           success: function (data) {
-              console.log(JSON.stringify(data.data),'data')
               that.total=data.data.sum
               that.seekerArr=data.data.data
                 }
@@ -109,17 +109,18 @@
          */
          handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
-        this.getseekerList(this.currentPage-1,0,val)
+        this.currentSize=val
+         this.getseekerList(this.currentPage-1,0,val)
       },
          handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-        this.getseekerList(val,0,this.limit)
+        this.getseekerList(val-1,0,this.currentSize)
       },
          upPage(){
-
+        this.getseekerList(this.currentPage-1,0,this.currentSize)
          },
          downPage(){
-
+       this.getseekerList(this.currentPage-1,0,this.currentSize)
          }
     },
    mounted:function(){

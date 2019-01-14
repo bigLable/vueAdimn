@@ -11,6 +11,8 @@ import Page5detail from './components/seekerMent/seerkerListRecomed.vue'
 import seekerResume from './components/seekerMent/seekerResume.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
+import Businessmanagement from './views/organizationalmanagement/Businessmanagement.vue'
+
 
 let routes = [
     {
@@ -58,6 +60,16 @@ let routes = [
             // { path: '/page4', component: Page4, name: '页面4' },
             // { path: '/page5', component: Page5, name: '求职者管理' },
             { path: '/page5detail', component:Page5detail,name:'推荐公司' },
+            { path: '/seekerResume', component:seekerResume,name:'求职者简历' }
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '企业管理',
+        iconCls: 'fa fa-id-card-o',
+        children: [
+            { path: '/Businessmanagement', component:Businessmanagement,name:'企业管理' },
             { path: '/seekerResume', component:seekerResume,name:'求职者简历' }
         ]
     },
