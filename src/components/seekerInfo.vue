@@ -4,7 +4,10 @@
       <h2>用户信息</h2>
       <el-row>
         <el-col :span="5">
-          <img class="headpic" :src="userInfo.userDetail.avatar">
+          <viewer :images="images">
+	         <img class="headpic" v-for="src in images" :src="src" :key="src" width="200px" height="200px">
+	       </viewer>
+          <!-- <img class="headpic" :src="userInfo.userDetail.avatar"> -->
         </el-col>
         <el-col :span="4">
           昵称:{{userInfo.userDetail.nickName}}
@@ -31,7 +34,8 @@
           上次修改时间:{{userInfo.employee.modificationTime}}
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" size="mini">推荐</el-button>
+          <router-link :to="{path:'/page5detail',query:{seekerId:userInfo.employee.id}}" tag="a"><el-button size="mini" type="primary" >推荐</el-button></router-link>
+        
           <br>
           <br>
           <br>
@@ -45,14 +49,22 @@
 
 <script>
 import $ from "jquery";
+ 
 export default {
   data() {
     return {
-     
+     userInfo:{}
+     ,images:[]
     };
   },
   computed: {},
   props: ["userInfo"],
+  watch:{
+    userInfo:function(newValue){
+        
+        this.images.push(newValue.userDetail.avatar)
+    }
+  },
   methods: {
    
   },

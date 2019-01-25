@@ -1,9 +1,8 @@
 <template>
   <div>
+       
     <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark" style="border:1px solid red">筛选条件区域</div>
-      </el-col>
+     <el-row> <Search></Search> </el-row>
     </el-row>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="未付费" name="0">
@@ -20,7 +19,7 @@
 </template>
 <script>
 import businessManagement from "../../components/peopleList-Businessmanagement";
-
+import Search from "../../components/search";//筛选组件
 export default {
   data() {
     return {
@@ -29,6 +28,7 @@ export default {
   },
   components: {
     businessManagement,
+     Search
   },
   methods: {
     handleClick(tab, event) {

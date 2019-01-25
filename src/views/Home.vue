@@ -140,7 +140,13 @@
 
 <style scoped lang="scss">
 	@import '~scss_vars';
-	
+	.message{
+		display: block;
+		width:5px;
+		height: 5px;
+		border-radius: 2.5px;
+		background-color: red
+	}
 	.container {
 		position: absolute;
 		top: 0px;

@@ -51,7 +51,6 @@
          handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
         this.$emit("currentPageNum",val)
-        
       },
          upPage(){ 
           this.$emit("UpPage",this.currentPage+1)
@@ -61,11 +60,9 @@
          }
     },
    mounted:function(){
-        
       /**
        * 调用显示求职者列表方法 
        * */ 
-    
    }
   }
 

@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import md5 from 'js-md5';
+import $ from 'jquery'
   import { requestLogin } from '../api/api';
   //import NProgress from 'nprogress'
   export default {
@@ -23,8 +25,9 @@
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
+          account: '',
+          checkPass: '',
+       
         },
         rules2: {
           account: [
@@ -44,32 +47,73 @@
         this.$refs.ruleForm2.resetFields();
       },
       handleSubmit2(ev) {
-        var _this = this;
-        this.$refs.ruleForm2.validate((valid) => {
-          if (valid) {
-            //_this.$router.replace('/table');
-            this.logining = true;
-            //NProgress.start();
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
-              this.logining = false;
-              //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
-                this.$message({
-                  message: msg,
-                  type: 'error'
-                });
-              } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
-              }
-            });
-          } else {
-            console.log('error submit!!');
-            return false;
+        let that=this
+        let promise=new Promise(function(resolve,reject){
+           $.ajax({
+        url: that.$store.state.api + "/user/getUserNumber",   
+        data: {
+        username:that.ruleForm2.account
+        },
+        success: function(data) {
+          if(data.data==null){
+            alert('不存在用户名')
+          }else{
+             console.log(data.data.passwordsalt,'随机数')
+              resolve(data.data.passwordsalt);
           }
-        });
+       
+        }
+      });
+        })
+        /**
+         * 验证是否通过
+         */
+      promise.then(function(Data){
+        console.log(md5(Data+that.ruleForm2.checkPass),'new密')
+        
+          $.ajax({
+        url: that.$store.state.api + "/user/userByIndex",
+        data: {
+        name:that.ruleForm2.account,
+        password:md5(Data+that.ruleForm2.checkPass)
+        },
+        success: function(data) {
+         console.log(data,'------验证消息')
+         if(data.data==false){
+           alert ('密码错误')
+         }else{
+           alert('欢迎登录！')
+           sessionStorage.setItem('user', JSON.stringify('欢迎您王老板'));
+            that.$router.push({ path: '/' });
+         }
+        }
+      });
+      })
+        // this.$refs.ruleForm2.validate((valid) => {
+        //   if (valid) {
+        //     //_this.$router.replace('/table');
+        //     this.logining = true;
+        //     //NProgress.start();
+        //     var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
+        //     requestLogin(loginParams).then(data => {
+        //       this.logining = false;
+        //       //NProgress.done();
+        //       let { msg, code, user } = data;
+        //       if (code !== 200) {
+        //         this.$message({
+        //           message: msg,
+        //           type: 'error'
+        //         });
+        //       } else {
+        //         sessionStorage.setItem('user', JSON.stringify(user));
+        //         this.$router.push({ path: '/' });
+        //       }
+        //     });
+        //   } else {
+        //     console.log('error submit!!');
+        //     return false;
+        //   }
+        // });
       }
     }
   }

@@ -13,16 +13,19 @@
       <!-- 姓名基本信息 -->
       <el-row :gutter="10">
         <el-col :span="6">
-          <img class="headpic" :src="userInfo.employee.bustPhotoUrl" alt>
+          <!-- <img class="headpic" :src="userInfo.employee.bustPhotoUrl" alt> -->
+           <viewer :images="images">
+	         <img v-for="src in images" :src="src" :key="src" width="200">
+	       </viewer>
         </el-col>
         <el-col :span="13">
-          <el-row :gutter="5">
-            <el-col :span="2">
+          <el-row :gutter="1">
+            <el-col :span="4">
               <h2>{{userInfo.employee.realName}}</h2>
             </el-col>
           </el-row>
           <br>
-          <el-row :gutter="5">
+          <el-row :gutter="1">
             <el-col :span="4">性别:{{userInfo.employee.sex == 1 ? '男' : '女'}}</el-col>
             <el-col :span="4">身高:{{userInfo.employee.height}}</el-col>
             <el-col :span="4">年龄:{{userInfo.employee.age}}</el-col>
@@ -31,9 +34,9 @@
           </el-row>
           <br>
           <el-row>
-            <el-col :span="5">手机号:{{userInfo.employee.mobile}}</el-col>
-            <el-col :span="5">邮箱:{{userInfo.employee.email}}</el-col>
-            <el-col :span="5">微信:{{userInfo.employee.wechatNo}}</el-col>
+            <el-col :span="4">手机号:{{userInfo.employee.mobile}}</el-col>
+            <el-col :span="6">邮箱:{{userInfo.employee.email}}</el-col>
+            <el-col :span="4">微信:{{userInfo.employee.wechatNo}}</el-col>
           </el-row>
         </el-col>
       </el-row>
@@ -60,7 +63,7 @@
           <span>学历:{{userInfo.employee.educationName}}</span>
         </el-col>
         <el-col :span="4">
-          <span>生日:19980612</span>
+          <span>生日:{{userInfo.employee.birthday}}</span>
           <br>
           <br>
           <span>体重:{{userInfo.employee.weight}}</span>
@@ -85,10 +88,14 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="3">
+        
           <h2>自我介绍</h2>
-        </el-col>
-        <el-col :span="8">语音---</el-col>
+        
+        <el-col :span="8"><img src="../assets/images/语音@2x.png" style="height:60px;width:300px;" alt="" @click="audioPlay()">
+         <audio :src="userInfo.employee.voiceUrl" ref="audio">
+             Your browser does not support the audio element.
+              </audio>
+        <span style="margin-top:20px">{{userInfo.employee.voiceMs/1000}}s</span></el-col>
       </el-row>
       <el-row>
         <el-col :span="24">
@@ -98,11 +105,11 @@
         <el-col :span="4">目标城市:{{userInfo.employeeObjective.cityName}}</el-col>
         <el-col
           :span="4"
-        >期望商场:{{JSON.parse(userInfo.employeeObjective.mall).map((item, index) => { return item.mallName }).join('')}}</el-col>
+        >期望商场:{{JSON.parse(userInfo.employeeObjective.mall).map((item, index) => { return item.mallName }).join('、')}}</el-col>
         <el-col :span="4">期望底薪:{{parseInt(userInfo.employeeObjective.expectSalary / 1000)}}K</el-col>
         <el-col
           :span="4"
-        >期望职位:{{JSON.parse(userInfo.employeeObjective.position).map((item, index) => { return item.mallName }).join('')}}</el-col>
+        >期望职位:{{JSON.parse(userInfo.employeeObjective.position).map((item, index) => { return item.dictName }).join('、')}}</el-col>
         <el-col
           :span="4"
         >求职品类:{{JSON.parse(userInfo.employeeObjective.category).map((item, index) => { return item.categoryName }).join('')}}</el-col>
@@ -143,18 +150,34 @@
 import $ from "jquery";
 export default {
   data() {
-    return {};
+    return {
+      audioState:false,
+      images:[]
+    };
   },
   computed: {},
   props: ["userInfo"],
+  watch: {
+    userInfo:function(newValue,oldValue){
+       this.userinfo=newValue
+        this.images.push(newValue.employee.bustPhotoUrl)
+    }
+  },
   methods: {
+    /**
+     * 自我介绍播放器控制
+     */
+    audioPlay(){
+        this.audioState=!this.audioState
+        this.audioState?this.$refs.audio.play():this.$refs.audio.pause()
+    },
     /**
      * 求职者详情
      */
     SeekerDetail(seekerId) {
       let that = this;
       $.ajax({
-        url: "http://192.168.0.199:10280/employee/getFullEmployee",
+        url: this.$store.state.api + "/employee/getFullEmployee",
         data: {
           employeeId: seekerId
         },
@@ -166,7 +189,7 @@ export default {
       /**
        * 调用求职者详情
        */
-      SeekerDetail();
+      this.SeekerDetail();
     }
   }
 };
@@ -182,6 +205,7 @@ export default {
   height: 120px;
 }
 .Resume {
+
   padding: 20px 20px 50px 20px;
   border: 0px solid gainsboro;
 }

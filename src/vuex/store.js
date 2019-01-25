@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 // 应用初始状态
 const state = {
-    count: 10
+    count: 10,
+    api:'http://192.168.0.109:10280'
 }
 
 // 定义所需的 mutations

@@ -7,13 +7,21 @@ import 'element-ui/lib/theme-default/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
+import  './assets/Style/Style.css'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
 import routes from './routes'
 import Mock from './mock'
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
+import Viewer from 'v-viewer'
+import 'viewerjs/dist/viewer.css'
 
+Vue.use(Viewer,{
+  defaultOptions:{
+    zIndex:9999
+  }
+})
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)

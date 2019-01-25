@@ -30,7 +30,7 @@
     SeekerDetail(seekerid) {
       let that = this;
       $.ajax({
-        url: "http://192.168.0.199:10280/employee/getFullEmployee",
+        url: this.$store.state.api + "/employee/getFullEmployee",
         data: {
           employeeId:seekerid
         },
