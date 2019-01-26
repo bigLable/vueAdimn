@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <el-row>
       <el-col :span="24">
         <div class="grid-content bg-purple-dark">
@@ -16,9 +16,10 @@
             <el-col :span="3">申请时间</el-col>
             <el-col :span="3">操作</el-col>
           </el-row>
-            <viewresumedetailmotai :postInfo="positionDetail"></viewresumedetailmotai>
-            <singleRersume :SingleResume="resumInfo"></singleRersume>
-          <div v-if="viewResumeArr.length"
+          <viewresumedetailmotai :postInfo="positionDetail"></viewresumedetailmotai>
+          <singleRersume :SingleResume="resumInfo"></singleRersume>
+          <div
+            v-if="viewResumeArr.length"
             v-loading="loading2"
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
@@ -27,11 +28,11 @@
             style="width: 100%"
           >
             <el-checkbox-group v-model="selected" @change="handleCheckedCitiesChange">
-              <el-row  v-for="(item,index) in viewResumeArr" v-bind:key="index" class="List"  >
+              <el-row v-for="(item,index) in viewResumeArr" v-bind:key="index" class="List">
                 <el-col :span="1">
                   <el-checkbox :label="item"></el-checkbox>
                 </el-col>
-                <el-col :span="5">{{item.recruiterName|| '暂无'}}</el-col>
+                <el-col :span="5">{{item.recruiterName|| '暂无'}}&nbsp;&nbsp;   <meages  :empId="item.recruiterId"></meages></el-col>
                 <el-col :span="2">{{item.recruiterMobile || '暂无'}}</el-col>
                 <el-col :span="2">
                   {{item.jobName || '暂无'}}&nbsp;&nbsp;
@@ -42,7 +43,10 @@
                 </el-col>
                 <el-col :span="2">
                   {{item.seekerRealName || '暂无'}}&nbsp;&nbsp;
-                  <span class="checkDetail" @mouseover="detailInfo($event,item.seekerId)">预览</span>
+                  <span
+                    class="checkDetail"
+                    @mouseover="detailInfo($event,item.seekerId)"
+                  >预览</span>
                 </el-col>
                 <el-col :span="2">{{item.seekerMobile || '暂无'}}</el-col>
                 <el-col :span="1">{{item.shareCount }}</el-col>
@@ -73,6 +77,7 @@
                     <el-button size="mini" type="primary">详情</el-button>
                   </router-link>
                 </el-col>
+              
               </el-row>
             </el-checkbox-group>
           </div>
@@ -98,8 +103,9 @@
   </div>
 </template>
 <script>
+import meages from '../meagess'
 import viewresumedetailmotai from "../viewResumeDetailMotai";
-import singleRersume from "../singleResume"
+import singleRersume from "../singleResume";
 import $ from "jquery";
 import paging from "../paging";
 export default {
@@ -124,7 +130,8 @@ export default {
   components: {
     paging,
     viewresumedetailmotai,
-  singleRersume
+    singleRersume,
+    meages
   },
   watch: {
     index: function(newVal, oldVal) {
@@ -141,12 +148,12 @@ export default {
       // this.positionDetail={}
       console.log(e, "e");
       let [X, Y] = [e.clientX, e.clientY];
-      console.log(e.clientX,'e.clientX')
+      console.log(e.clientX, "e.clientX");
       let that = this;
       this.dialogVisible = true;
       $.ajax({
         type: "GET",
-        url: this.$store.state.api+"/companyJob/selectCompanyJobById",
+        url: this.$store.state.api + "/companyJob/selectCompanyJobById",
         data: {
           id: jobId
         },
@@ -165,8 +172,7 @@ export default {
       });
       $.ajax({
         type: "GET",
-        url:
-         this.$store.state.api+"/companyJob/selectCompanyJobListBreviary",
+        url: this.$store.state.api + "/companyJob/selectCompanyJobListBreviary",
         data: {
           diff: true,
           userId: recruiterId
@@ -184,18 +190,18 @@ export default {
     /**
      * 求职者简历
      */
-    detailInfo(e,id) {
-         let [X, Y] = [e.clientX, e.clientY];
+    detailInfo(e, id) {
+      let [X, Y] = [e.clientX, e.clientY];
       let that = this;
       $.ajax({
         type: "GET",
-        url: this.$store.state.api+"/employee/getEmployeeShowData",
+        url: this.$store.state.api + "/employee/getEmployeeShowData",
         data: {
           employeeId: id
         },
         success: function(data) {
           that.resumInfo = data.data;
-           that.resumInfo = Object.assign(
+          that.resumInfo = Object.assign(
             {},
             { newclientX: X, newclientY: Y },
             that.resumInfo

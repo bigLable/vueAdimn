@@ -9,7 +9,7 @@
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false"> <span @click="send"> 发送留言</span></el-button>
+    <el-button type="primary" @click="send"> <span > 发送留言</span></el-button>
   </div>
 </el-dialog>
     </div>
@@ -45,6 +45,8 @@ export default {
             if(data.code=="500"){
                 alert('留言失败')
             }else{
+
+              that.dialogFormVisible = false
                 alert('留言成功')
             }
         console.log(data.data,'data')

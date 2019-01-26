@@ -54,6 +54,9 @@
                 <el-button size="mini" type="primary">详情</el-button>
               </router-link>
             </el-col>
+            <el-col :span="1">
+              <meages :empId="item.companyEmployeeId"></meages>
+            </el-col>
           </el-row>
              </el-checkbox-group>        
         </div>
@@ -80,6 +83,7 @@
 
 <script>
 import $ from "jquery";
+import meages from '../meagess'
 import paging from "../paging";
 export default {
   data() {
@@ -97,7 +101,8 @@ export default {
   props: ["index"],
   computed: {},
   components: {
-    paging
+    paging,
+    meages
   },
   watch: {
       index: function(newVal, oldVal) {

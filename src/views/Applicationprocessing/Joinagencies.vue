@@ -22,6 +22,7 @@
   </div>
 </template>
 <script>
+
 import ViewResume from "../../components/applicationprocessing/Joinagencies";
 import Search from "../../components/Search";
 

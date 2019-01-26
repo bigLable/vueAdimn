@@ -7,7 +7,7 @@
             <el-col :span="1">
              <el-checkbox @change="handleCheckAllChange" v-model="checkedAll">全选</el-checkbox>
             </el-col>
-             <el-col :span="2">申请人</el-col>
+             <el-col :span="3">申请人</el-col>
             <el-col :span="3">求职职位</el-col>
             <el-col :span="2">联系电话</el-col>
             <el-col :span="2">申请岗位</el-col>
@@ -26,12 +26,12 @@
               <el-checkbox :label="item"></el-checkbox>
             </el-col>
            
-            <el-col :span="2">{{item.realName||'暂无'}}&nbsp;&nbsp; <span
+            <el-col :span="3">{{item.realName||'暂无'}}&nbsp;&nbsp; <span
                     class="checkDetail"
                     @mouseover="detailInfo($event,item.seekerEmployeeId)"
-                  >预览</span></el-col>
+                  >预览</span> <meages :empId="item.seekerEmployeeId"></meages> </el-col>
          
-            <el-col :span="3">
+            <el-col :span="3" >
               <el-row>
                 <el-col v-for="(item,index) in JSON.parse(item.employeePosition)" :key='index'>{{item.dictName}}</el-col>
               </el-row>
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+import meages from '../meagess'
 import  singleRersume from '../singleResume'
 import $ from "jquery";
 import paging from "../paging";
@@ -114,7 +115,8 @@ export default {
   computed: {},
   components: {
     paging,
-    singleRersume
+    singleRersume,
+    meages
   },
   watch: {
       index: function(newVal, oldVal) {

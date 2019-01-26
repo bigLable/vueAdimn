@@ -47,6 +47,7 @@
               <router-link :to="{ path:'/ListRecruitmentcertification',query:{enterId:item.id}}" tag="a">
                 <el-button size="mini" type="primary">详情</el-button>
               </router-link>
+             <!-- 留言 --><meages  :empId="item.employeeId"></meages> 
             </el-col>
           </el-row>
           </el-checkbox-group>
@@ -70,6 +71,7 @@
   </div>
 </template>
 <script>
+import meages from '../meagess'
 import $ from "jquery";
 import paging from "../paging";
 export default {
@@ -88,7 +90,8 @@ export default {
   props: ["index"],
   computed: {},
   components: {
-    paging
+    paging,
+    meages
   },
   watch: {
       index: function(newVal, oldVal) {

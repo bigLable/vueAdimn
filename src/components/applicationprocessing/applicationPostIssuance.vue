@@ -10,9 +10,9 @@
              <el-col :span="2">logo</el-col>
             <el-col :span="2">类型</el-col>
             <el-col :span="2">机构名称</el-col>
-            <el-col :span="2">职位</el-col>
+            <el-col :span="2" style="text-align:center">职位</el-col>
             <el-col :span="2">联系电话</el-col>
-            
+            <el-col :span="2">推荐工作次数</el-col>
               <el-col :span="2">在招职位数</el-col>
                <el-col :span="3">申请时间</el-col>
             <el-col :span="3">操作</el-col>
@@ -29,11 +29,14 @@
             <el-col :span="2">
               {{item.companyEmployeeName}}
             </el-col>
-             <el-col :span="2">
+             <el-col :span="2" style="text-align:center">
               {{item.companyEmployeeJob}}
             </el-col>
              <el-col :span="2">
               {{item.companyEmployeeMobile}}
+            </el-col>
+             <el-col :span="2">
+              {{item.recommendSun}}
             </el-col>
              <el-col :span="2">
              <!-- {{item.companyJobName}}&nbsp;&nbsp;  <span
@@ -64,7 +67,7 @@
               </router-link>
             </el-col>
             <el-col :span="1">
-       <!-- 999 --><message :empId="item.jobId"></message>
+       <!-- 留言 --><message :empId="item.companyJobEmployeeId"></message>
             </el-col>
           </el-row>
             </el-checkbox-group>          

@@ -23,6 +23,7 @@ import applicationPostIssuance from './views/Applicationprocessing/applicationPo
 import detailapplicationPostIssuance from './components/applicationprocessing/detail-applicationPostIssuance.vue'
 import Joinagencies from './views/Applicationprocessing/Joinagencies.vue'
 import NotFound from './views/404.vue'
+import RecruiterManagement from './views/nav2/RecruiterManagement.vue'
 
 
 
@@ -58,6 +59,16 @@ let routes = [
             // { path: '/page5detail', component:Page5detail,name:'推荐公司' }
         ]
     },
+    // {
+    //     path: '/',
+    //     component: Home,
+    //     name: `招聘者管理`,
+    //     iconCls: 'fa fa-id-card-o',
+    //     children: [
+    //         { path: '/RecruiterManagement', component: RecruiterManagement, name: `招聘者管理 ` },
+    //         // { path: '/page5detail', component:Page5detail,name:'推荐公司' }
+    //     ]
+    // },
     {
         path: '/',
         component: Home,

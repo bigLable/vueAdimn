@@ -27,7 +27,6 @@ import $ from 'jquery'
         ruleForm2: {
           account: '',
           checkPass: '',
-       
         },
         rules2: {
           account: [
@@ -43,6 +42,18 @@ import $ from 'jquery'
       };
     },
     methods: {
+      /**
+       * 总注册人数
+       */
+      people(){
+        $.ajax({
+          url,
+          data,
+          success:function(data){
+            sessionStorage.setItem('peopleNum',data)
+          }
+        })
+      },
       handleReset2() {
         this.$refs.ruleForm2.resetFields();
       },
@@ -83,8 +94,11 @@ import $ from 'jquery'
            alert ('密码错误')
          }else{
            alert('欢迎登录！')
-           sessionStorage.setItem('user', JSON.stringify('欢迎您王老板'));
+
+           sessionStorage.setItem('user', JSON.stringify('欢迎您'));
+            that.people()
             that.$router.push({ path: '/' });
+
          }
         }
       });

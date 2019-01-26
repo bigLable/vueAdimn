@@ -5,14 +5,14 @@
         <div class="grid-content bg-purple-dark">
           <el-row>
             <el-col :span="2">Logon</el-col>
-            <el-col :span="5">企业简称</el-col>
+            <el-col :span="3">企业简称</el-col>
             <el-col :span="1">付费</el-col>
-            <el-col :span="3">联系方式</el-col>
+            <el-col :span="2">联系方式</el-col>
             <el-col :span="1">员工数</el-col>
-            <el-col :span="3">在招职位</el-col>
-            <el-col :span="3">合同时间</el-col>
-            <el-col :span="4">企业地址</el-col>
-            <el-col :span="2">操作</el-col>
+            <el-col :span="2">在招职位</el-col>
+            <el-col :span="2">合同时间</el-col>
+            <el-col :span="6">企业地址</el-col>
+            <el-col :span="5">操作</el-col>
           </el-row>
           <div 
             v-loading="loading2"
@@ -25,17 +25,17 @@
             <el-col :span="2">
               <img class="headpic" :src="item.logo">
             </el-col>
-            <el-col :span="5">{{item.name}}</el-col>
+            <el-col :span="3">{{item.name}}</el-col>
             <el-col :span="1">{{item.isPay == 0 ? '否' : '是'}}</el-col>
-            <el-col :span="3">{{item.mobile || '暂无'}}</el-col>
+            <el-col :span="2">{{item.mobile || '暂无'}}</el-col>
             <el-col :span="1">{{item.employeeSum || '暂无'}}</el-col>
-            <el-col :span="3">{{item.jobSum || '暂无'}}</el-col>
-            <el-col :span="3">
+            <el-col :span="2">{{item.jobSum || '暂无'}}</el-col>
+            <el-col :span="2">
               {{item.startTime || '暂无'}}
               <br>
               {{item.startEnd || '暂无'}}
             </el-col>
-            <el-col :span="4">{{item.adress || '暂无'}}</el-col>
+            <el-col :span="6">{{item.adress || '暂无'}}</el-col>
             <el-col :span="1">
               <!-- <router-link :to="{path:'/page5detail',query:{seekerId:item.id}}" tag="a"> -->
               <el-button type="text" @click="dialogFormVisible = true">
@@ -112,6 +112,9 @@
                 <el-button size="mini" type="primary">详情</el-button>
               </router-link>
             </el-col>
+            <el-col :span="1">
+           <meages :empId="item.id">留言</meages>
+            </el-col>
           </el-row>
           </div>
         </div>
@@ -132,6 +135,7 @@
 </template>
 
 <script>
+import meages from './meagess'
 import $ from "jquery";
 import paging from "./paging";
 export default {
@@ -151,8 +155,8 @@ export default {
       dialogFormVisible: false,
       form: {
         value4: [
-          new Date(2000, 10, 10, 10, 10),
-          new Date(2000, 10, 11, 10, 10)
+          new Date(),
+          new Date()
         ], //合同时间
         peopleNum: "", //招聘人数
         area: "", //合同地区
@@ -172,7 +176,8 @@ export default {
   props: ["index"],
   computed: {},
   components: {
-    paging
+    paging,
+    meages
   },
   watch: {
     index: function(newVal, oldVal) {

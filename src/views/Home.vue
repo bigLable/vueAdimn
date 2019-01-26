@@ -32,6 +32,14 @@
 						</el-submenu>
 						<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i :class="item.iconCls"></i>{{item.children[0].name}}</el-menu-item>
 					</template>
+					<li style="height:20px;" @mouseover.stop="showState=!showState">
+						<template >
+							<span v-show="showState">注册人数{{peopleNum}}</span>
+						
+					</template>
+					</li>
+                    
+
 				</el-menu>
 				<!--导航菜单-折叠后-->
 				<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
@@ -48,6 +56,7 @@
 							</li>
 						</template>
 					</li>
+				
 				</ul>
 			</aside>
 			<section class="content-container">
@@ -75,7 +84,9 @@
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN',
+				showState:false,
+				peopleNum:'',
+				sysName:'从道店员',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: '',
@@ -126,6 +137,7 @@
 			}
 		},
 		mounted() {
+			this.peopleNum=sessionStorage.getItem('peopleNum')
 			var user = sessionStorage.getItem('user');
 			if (user) {
 				user = JSON.parse(user);
