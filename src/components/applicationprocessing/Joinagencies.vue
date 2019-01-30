@@ -11,7 +11,7 @@
             <el-col :span="3">类型</el-col>
             <el-col :span="4">机构简称</el-col>
             <el-col :span="2">申请人</el-col>
-            <el-col :span="2">联系电话</el-col>
+            <el-col :span="2">电话</el-col>
             <el-col :span="2">职位</el-col>            
               <el-col :span="2">boss电话</el-col>
                <el-col :span="2">申请时间</el-col>
@@ -24,26 +24,26 @@
             </el-col>         
             <el-col :span="2"><img :src="item.logo" alt="" class="headpic"></el-col>      
             <el-col :span="3">{{item.employeeIsState==0?'公司':'店铺'}}</el-col>
-            <el-col :span="4">{{item.companyName}}</el-col>
+            <el-col :span="4">{{item.companyName||'暂无'}}</el-col>
             <el-col :span="2">
-              {{item.employeeName}}
+              {{item.employeeName||'暂无'}}
             </el-col>
             <el-col :span="2">
-              {{item.employeeMobile}}
+              {{item.employeeMobile||'暂无'}}
             </el-col>
              <el-col :span="2">
-              {{item.employeeJob}}
+              {{item.employeeJob||'暂无'}}
             </el-col>
             
              <el-col :span="2">
-             {{item.bossCompany.mobile}}
+             {{item.bossCompany.mobile||'暂无'}}
             </el-col>
              <el-col :span="2">
-              {{item.creationTime}}
+              {{item.creationTime||'暂无'}}
             </el-col>
             <el-col :span="1">
               <!-- <router-link :to="{path:'/page5detail',query:{seekerId:item.id}}" tag="a"> -->
-              <el-button size="mini" type="primary" v-if="Istate!=1" @click="change(item.companyJobApplicationId,true)">通过</el-button>        
+              <el-button size="mini" type="primary" v-if="Istate!=1" @click="change(item.companyEmployeeId,true)">通过</el-button>        
               <!-- </router-link> -->
             </el-col >       
               <el-col :span="1">
@@ -131,7 +131,7 @@ export default {
       },
       allchange(){
         this.selected.map(item=>{
-          this.change(item.companyJobApplicationId,true)
+          this.change(item.companyEmployeeId,true)
         })
         
       },
@@ -146,6 +146,9 @@ export default {
                 id:id,
                 diff:num
             },
+            xhrFields: {
+                      withCredentials: true
+              },
             success: function (data) { 
                 if(data.code==200){
                      alert('操作成功')
@@ -203,6 +206,9 @@ export default {
          diff:newVal,
         
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.viewResumeArr = data.data.companyMap;

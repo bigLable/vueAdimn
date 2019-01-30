@@ -181,6 +181,9 @@ export default {
         data: {
           employeeId: seekerId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {}
       });
     },

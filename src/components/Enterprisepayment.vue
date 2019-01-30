@@ -78,6 +78,9 @@
         data: {
             companyId:enterId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data){
           that.tableData=data.data.companyPayList
         }

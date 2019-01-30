@@ -40,7 +40,7 @@
           <br>
           <br>
           <br>
-          联系方式:{{userInfo.userDetail.remark}}
+          电话:{{userInfo.userDetail.remark}}
         </el-col>
       </el-row>
     </div>

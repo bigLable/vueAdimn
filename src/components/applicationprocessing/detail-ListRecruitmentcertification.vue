@@ -21,7 +21,7 @@
           职位:{{ enterInfo.job||'暂无填写'}}
         </el-col>
         <el-col :span="4">
-          联系方式:{{ enterInfo.mobile}}
+          电话:{{ enterInfo.mobile}}
         </el-col>
       </el-row>
     </div>
@@ -51,6 +51,9 @@ export default {
                 data:{
                    id:cruiteID
             },
+            xhrFields: {
+                      withCredentials: true
+              },
                 success: function(data) {
                 that.enterInfo=data.data
                 }

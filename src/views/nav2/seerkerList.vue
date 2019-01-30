@@ -35,16 +35,18 @@
             <el-col :span="1">求职状态</el-col>
             <el-col :span="1">简历</el-col>
             <el-col :span="1">分享</el-col>
+            <el-col :span='1'>工作数</el-col>
             <el-col :span="3">住址</el-col>
-            <el-col :span="2">联系方式</el-col>
+            <el-col :span="2">电话</el-col>
             <el-col :span="3">操作</el-col>
           </el-row>
+          <singleRersume :SingleResume="resumInfo"></singleRersume>
           <el-row v-for="(item,index) in seekerArr" v-bind:key="index" class="List">
             <el-col :span="2">
               <img class="headpic" :src="item.avatar">
             </el-col>
-            <!-- <el-col :span="1">{{item.nickname}}</el-col> -->
-            <el-col :span="2">{{item.realName}}</el-col>
+            <!-- <el-col :span="1">{{item.nickname}}</el-col> -->  
+            <el-col :span="2">{{item.realName}}&nbsp;&nbsp;<span  @mouseover="detailInfo($event,item.id)" class="checkDetail">预览</span> </el-col>
             <el-col :span="1">{{item.sex == 1 ? '男' : '女'}}</el-col>
             <el-col :span="1">{{item.height}}cm</el-col>
             <el-col
@@ -74,6 +76,7 @@
             <el-col :span="1">{{item.jobStateName}}</el-col>
             <el-col :span="1">{{item.publicState == '0' ? '隐藏' : '公开'}}</el-col>
              <el-col :span="1">{{item.shareCount}}</el-col>
+             <el-col :span="1">{{item.hasJobCount}}</el-col>
             <el-col :span="3" class="fontLimtLenght">{{item.address}}</el-col>
             <el-col :span="2">{{item.mobile}}</el-col>
             <el-col :span="1">
@@ -86,10 +89,8 @@
                 <el-button size="mini" type="primary">详情</el-button>
               </router-link>
             </el-col>
-             <el-col :span="1">
-            
-                <meages :empId="item.id">留言</meages>
-            
+             <el-col :span="1">  
+                <meages :empId="item.id">留言</meages>            
             </el-col>
           </el-row>
         </div>
@@ -116,12 +117,15 @@
 </template>
 
 <script>
+import singleRersume from '../../components/singleResume'
 import meages from "../../components/meagess"
 import Search from "../../components/search";
 import $ from "jquery";
+
 export default {
   data() {
     return {
+        resumInfo:{},
       formLabelAlign: {
        
         options: [{
@@ -141,9 +145,37 @@ export default {
   computed: {},
   components: {
     Search,
-    meages
+    meages,
+    singleRersume
   },
   methods: {
+      /**
+     * 求职者简历
+     */
+    detailInfo(e,id) {
+      console.log(id,'--')
+         let [X, Y] = [e.clientX, e.clientY];
+      let that = this;
+      $.ajax({
+        type: "GET",
+        url: that.$store.state.api+"/employee/getEmployeeShowData",
+        data: {
+          employeeId: id
+        },
+        xhrFields: {
+                      withCredentials: true
+              },
+        success: function(data) {
+          that.resumInfo = data.data;
+           that.resumInfo = Object.assign(
+            {},
+            { newclientX: X, newclientY: Y },
+            that.resumInfo
+          );      
+          console.log( that.resumInfo,'..............')
+        }
+      });
+    },
     /**
      * 筛选数据的表单  
     */
@@ -157,6 +189,9 @@ export default {
        let that=this
        $.ajax({
         url: this.$store.state.api + "/dict/listDict?typeId=1",
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
                 console.log(data.data,'--')
         data.data.map(item=>{
@@ -205,6 +240,9 @@ export default {
           isFirstCommit: isFirstCommit,
           limit: limit
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.total = data.data.sum;
           that.seekerArr = data.data.data;
@@ -243,6 +281,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.checkDetail {
+  color: blue;
+  cursor: pointer;
+}
 .el-row{
   box-sizing: border-box;
     overflow: hidden;

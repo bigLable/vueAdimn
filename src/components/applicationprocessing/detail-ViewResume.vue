@@ -28,7 +28,7 @@
               注册时间:{{ userinfo.creationTime}}
             </el-col>
             <el-col :span="4">性别:{{ userinfo.sex == 1 ? '男' : '女'}}</el-col>
-            <el-col :span="4">联系方式:{{ userinfo.mobile}}</el-col>
+            <el-col :span="4">电话:{{ userinfo.mobile}}</el-col>
           </el-row>
         </div>
         <el-row style="background:rgba(250,250,250,1);">
@@ -172,6 +172,9 @@ export default {
         data: {
           id: jobId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.jobRequire = data.data;
         }
@@ -190,6 +193,9 @@ export default {
           diff: true,
           userId: UserID
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
         data.data.map(item=>{
                that.options.push({value:item.id,
@@ -211,6 +217,9 @@ export default {
         data: {
           employeeId: seekerId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success:function(data){
           that.userInfo = data.data;
           that.userinfo=data.data.employee

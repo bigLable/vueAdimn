@@ -15,7 +15,6 @@ npm run dev
 npm run build
 
 ```
-
 # Folder structure
 * build - webpack config files
 * config - webpack config files
@@ -55,3 +54,17 @@ Modern browsers and IE 10+.
 
 # License
 [MIT](http://opensource.org/licenses/MIT)
+
+
+
+
+
+src :目录结构
+    api
+    assets
+    components 左侧列表项组件
+    mock
+    style
+    views 界面左侧列表
+    vuex
+    

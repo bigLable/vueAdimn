@@ -9,8 +9,8 @@
             </el-col>
             <el-col :span="2">Logon</el-col>
             <el-col :span="5">企业名称</el-col>
-            <el-col :span="2">联系方式</el-col>
-            <el-col :span="4">接收简历邮箱</el-col>
+            <el-col :span="2">电话</el-col>
+            <el-col :span="4">邮箱</el-col>
             <el-col :span="3">职位</el-col>
             <el-col :span="3">申请时间</el-col>
             <el-col :span="3">操作</el-col>
@@ -135,6 +135,9 @@ export default {
                 id:id,
                 isStates:num
             },
+            xhrFields: {
+                      withCredentials: true
+              },
             success: function (data) { 
                 if(data.code==200){
                     alert('操作成功！！')
@@ -192,6 +195,9 @@ export default {
           diff:newVal,
         
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.RecruitArr = data.data.companies;

@@ -34,6 +34,9 @@
         data: {
           employeeId:seekerid
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.userInfo = data.data;
           console.log(JSON.stringify(data.data), "data.data");

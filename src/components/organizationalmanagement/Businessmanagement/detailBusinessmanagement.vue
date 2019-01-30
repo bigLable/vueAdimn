@@ -50,6 +50,9 @@
         data: {
         id:enterId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data){
             var obj=data.data
          if(obj.companyCategory==undefined){

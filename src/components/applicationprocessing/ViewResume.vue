@@ -8,11 +8,13 @@
               <el-checkbox @change="handleCheckAllChange" v-model="checkedAll">全选</el-checkbox>
             </el-col>
             <el-col :span="5">所属机构</el-col>
-            <el-col :span="2">联系电话</el-col>
+            <el-col :span="2">电话</el-col>
             <el-col :span="2">招聘职位</el-col>
             <el-col :span="2">求职者</el-col>
-            <el-col :span="2">联系电话</el-col>
+            <el-col :span="2">电话</el-col>
             <el-col :span="1">分享</el-col>
+             <el-col :span="1">职位数</el-col>
+              <el-col :span="1">职员数</el-col>
             <el-col :span="3">申请时间</el-col>
             <el-col :span="3">操作</el-col>
           </el-row>
@@ -32,7 +34,7 @@
                 <el-col :span="1">
                   <el-checkbox :label="item"></el-checkbox>
                 </el-col>
-                <el-col :span="5">{{item.recruiterName|| '暂无'}}&nbsp;&nbsp;   <meages  :empId="item.recruiterId"></meages></el-col>
+                <el-col :span="5">{{item.recruiterName|| '暂无'}}&nbsp;&nbsp;   <meages style="display:inline" :empId="item.recruiterId"></meages></el-col>
                 <el-col :span="2">{{item.recruiterMobile || '暂无'}}</el-col>
                 <el-col :span="2">
                   {{item.jobName || '暂无'}}&nbsp;&nbsp;
@@ -50,6 +52,8 @@
                 </el-col>
                 <el-col :span="2">{{item.seekerMobile || '暂无'}}</el-col>
                 <el-col :span="1">{{item.shareCount }}</el-col>
+ <el-col :span="1">{{item.hasJobCount }}</el-col>
+ <el-col :span="1">{{item.hasEmployeeCount }}</el-col>
                 <el-col :span="3">{{item.creationTime || '暂无'}}</el-col>
                 <el-col :span="1">
                   <!-- <router-link :to="{path:'/page5detail',query:{seekerId:item.id}}" tag="a"> -->
@@ -157,6 +161,9 @@ export default {
         data: {
           id: jobId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         async: false,
         success: function(data) {
           that.positionDetail = data.data;
@@ -177,6 +184,9 @@ export default {
           diff: true,
           userId: recruiterId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         async: false,
         success: function(data) {
           that.jobsList = data.data;
@@ -199,6 +209,9 @@ export default {
         data: {
           employeeId: id
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.resumInfo = data.data;
           that.resumInfo = Object.assign(
@@ -206,7 +219,9 @@ export default {
             { newclientX: X, newclientY: Y },
             that.resumInfo
           );
+           console.log(that.resumInfo,'++++++-----')
         }
+       
       });
     },
     handleClose(done) {
@@ -252,6 +267,9 @@ export default {
           id: id,
           isPassed: num
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           if (data.code == 200) {
             alert("操作成功！！");
@@ -297,6 +315,9 @@ export default {
           page: page - 1,
           isPassed: newVal
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.viewResumeArr = data.data.data;

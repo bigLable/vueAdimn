@@ -9,15 +9,19 @@
             </el-col>
              <el-col :span="3">申请人</el-col>
             <el-col :span="3">求职职位</el-col>
-            <el-col :span="2">联系电话</el-col>
+            <el-col :span="2">电话</el-col>
             <el-col :span="2">申请岗位</el-col>
-         
+             
             <el-col :span="4">所属机构</el-col>
-             <el-col :span="2">联系电话</el-col>
-              <el-col :span="1">分享次数</el-col>
+             <el-col :span="2">电话</el-col>
+              <el-col :span="1">分享</el-col>
+              <el-col :span="1">申请人推荐</el-col>
                <el-col :span="2">申请时间</el-col>
             <el-col :span="3">操作</el-col>
           </el-row>
+          <!-- 预览申请岗位 -->
+          
+          <previewposts></previewposts>
             <!-- 预览 -->
             <singleRersume :SingleResume="resumInfo"></singleRersume>
              <el-checkbox-group v-model="selected" @change="handleCheckedCitiesChange">
@@ -39,7 +43,7 @@
             </el-col>
             <el-col :span="2">{{item.employeeMobile || '暂无'}}</el-col>
             <el-col :span="2">
-              {{item.companyJobName || '暂无'}}
+              {{item.companyJobName || '暂无'}}&nbsp;&nbsp;<span @mouseover="view($event,item.jobId)" style="color:blue">预览</span>
             </el-col>
             
              <el-col :span="4">
@@ -50,6 +54,10 @@
             </el-col>
              <el-col :span="1">
              {{item.userDetail }}
+            </el-col>
+            
+            <el-col :span="1">
+             {{item.hasJobCount }}
             </el-col>
              <el-col :span="2">
               {{item.companyJobApplicationCreationTime || '暂无'}}
@@ -94,6 +102,8 @@
 </template>
 
 <script>
+import previewposts from '../PreviewPosts'
+import {mapMutations} from 'vuex'
 import meages from '../meagess'
 import  singleRersume from '../singleResume'
 import $ from "jquery";
@@ -101,6 +111,7 @@ import paging from "../paging";
 export default {
   data() {
     return {
+      alertState:false,
       selected:'',
       checkedAll:false,
       viewResumeArr:[],
@@ -116,7 +127,8 @@ export default {
   components: {
     paging,
     singleRersume,
-    meages
+    meages,
+    previewposts
   },
   watch: {
       index: function(newVal, oldVal) {
@@ -131,6 +143,38 @@ export default {
   
   },
   methods: {
+    ...mapMutations(['VIEWCONFIG']),
+    /**
+     * 预览职位
+     */
+    view(e,jobId){
+      let that=this
+      that.alertState=true
+      console.log(e,'e')
+        $.ajax({
+        type: "GET",
+        url: this.$store.state.api + "/companyJob/selectCompanyJobById",
+        data: {
+          id: jobId
+        },
+        xhrFields: {
+                      withCredentials: true
+              },
+       
+        success: function(data) {
+          that.positionDetail = data.data;
+          console.log(that.positionDetail, "that.positionDetail");
+         const obj= Object.assign(
+            {},
+            { alertstate:that.alertState,newclientX:e.clientX, newclientY: e.clientY },
+            that.positionDetail
+          );
+           that.VIEWCONFIG(obj)
+           console.log(that.$store.state.viewConfig,'viewConfig----------------')
+          //  console.log(JSON.stringify(jobDetal)+'***********jobDetal')
+        }
+      });
+    },
       /**
      * 求职者简历
      */
@@ -144,6 +188,9 @@ export default {
         data: {
           employeeId: id
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.resumInfo = data.data;
            that.resumInfo = Object.assign(
@@ -182,6 +229,9 @@ export default {
                 id:id,
                 diff:num
             },
+            xhrFields: {
+                      withCredentials: true
+              },
             success: function (data) { 
                 if(data.code==200){
                      alert('操作成功')
@@ -240,6 +290,9 @@ export default {
          diff:newVal,
         
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
          

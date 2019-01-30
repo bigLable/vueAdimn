@@ -11,8 +11,8 @@
             <el-col :span="2">类型</el-col>
             <el-col :span="2">机构名称</el-col>
             <el-col :span="2" style="text-align:center">职位</el-col>
-            <el-col :span="2">联系电话</el-col>
-            <el-col :span="2">推荐工作次数</el-col>
+            <el-col :span="2">电话</el-col>
+            <el-col :span="2">工作数</el-col>
               <el-col :span="2">在招职位数</el-col>
                <el-col :span="3">申请时间</el-col>
             <el-col :span="3">操作</el-col>
@@ -36,8 +36,9 @@
               {{item.companyEmployeeMobile}}
             </el-col>
              <el-col :span="2">
-              {{item.recommendSun}}
+              {{item. hasEmployeeCunt}}
             </el-col>
+           
              <el-col :span="2">
              <!-- {{item.companyJobName}}&nbsp;&nbsp;  <span
                     class="checkDetail"
@@ -160,6 +161,9 @@ export default {
                 jobId:id,
                 diff:num
             },
+            xhrFields: {
+                      withCredentials: true
+              },
             success: function (data) { 
                 if(data.code==200){
                      alert('操作成功')
@@ -217,6 +221,9 @@ export default {
            diff:newVal,
         
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.viewResumeArr = data.data.companyJobMap;

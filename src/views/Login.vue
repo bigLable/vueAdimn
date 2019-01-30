@@ -2,7 +2,7 @@
   <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm login-container">
     <h3 class="title">系统登录</h3>
     <el-form-item prop="account">
-      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
+      <el-input type="text" @blur="logo" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="checkPass">
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
@@ -19,11 +19,14 @@
 import md5 from 'js-md5';
 import $ from 'jquery'
   import { requestLogin } from '../api/api';
+import { setInterval, clearInterval } from 'timers';
   //import NProgress from 'nprogress'
   export default {
     data() {
       return {
+        timer:null,
         logining: false,
+        randomNumber:'',
         ruleForm2: {
           account: '',
           checkPass: '',
@@ -46,48 +49,82 @@ import $ from 'jquery'
        * 总注册人数
        */
       people(){
+        
+        let that=this
         $.ajax({
-          url,
-          data,
+          url:that.$store.state.api+"/user/getAllUserNumber",
+          xhrFields: {
+                      withCredentials: true
+              },
           success:function(data){
-            sessionStorage.setItem('peopleNum',data)
+            sessionStorage.setItem('peopleNum',data.data)
           }
         })
       },
       handleReset2() {
         this.$refs.ruleForm2.resetFields();
       },
-      handleSubmit2(ev) {
+      /**
+       *登录
+       */
+      logo(){
         let that=this
-        let promise=new Promise(function(resolve,reject){
            $.ajax({
         url: that.$store.state.api + "/user/getUserNumber",   
         data: {
         username:that.ruleForm2.account
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           if(data.data==null){
             alert('不存在用户名')
           }else{
              console.log(data.data.passwordsalt,'随机数')
-              resolve(data.data.passwordsalt);
+           that.randomNumber=data.data.passwordsalt
           }
        
         }
       });
-        })
+      },
+      handleSubmit2(ev) {
+        let that=this
+      //   let promise=new Promise(function(resolve,reject){
+      //      $.ajax({
+      //   url: that.$store.state.api + "/user/getUserNumber",   
+      //   data: {
+      //   username:that.ruleForm2.account
+      //   },
+      //   xhrFields: {
+      //                 withCredentials: true
+      //         },
+      //   success: function(data) {
+      //     if(data.data==null){
+      //       alert('不存在用户名')
+      //     }else{
+      //        console.log(data.data.passwordsalt,'随机数')
+      //         resolve(data.data.passwordsalt);
+      //     }
+       
+      //   }
+      // });
+      //   })
         /**
          * 验证是否通过
-         */
-      promise.then(function(Data){
-        console.log(md5(Data+that.ruleForm2.checkPass),'new密')
+      //    */
+      // promise.then(function(Data){
+        console.log(md5(that.randomNumber+that.ruleForm2.checkPass),'new密')
         
           $.ajax({
         url: that.$store.state.api + "/user/userByIndex",
         data: {
         name:that.ruleForm2.account,
-        password:md5(Data+that.ruleForm2.checkPass)
+        password:md5(that.randomNumber+that.ruleForm2.checkPass)
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
          console.log(data,'------验证消息')
          if(data.data==false){
@@ -102,7 +139,7 @@ import $ from 'jquery'
          }
         }
       });
-      })
+      // })
         // this.$refs.ruleForm2.validate((valid) => {
         //   if (valid) {
         //     //_this.$router.replace('/table');
@@ -129,7 +166,15 @@ import $ from 'jquery'
         //   }
         // });
       }
-    }
+    },
+    
+    mounted:function(){
+    
+
+    },
+    // destroyed:function(){
+    //   clearInterval(this.timer)
+    // }
   }
 
 </script>

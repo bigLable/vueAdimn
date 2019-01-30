@@ -10,7 +10,7 @@
             <el-col :span="2">Logon</el-col>
             <el-col :span="5">店铺名称</el-col>
       
-            <el-col :span="3">联系方式</el-col>
+            <el-col :span="3">电话</el-col>
             <el-col :span="1">员工数</el-col>
             <el-col :span="3">在招职位</el-col>
             
@@ -119,6 +119,9 @@ export default {
           diff: true,
           isPay: newVal
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.seekerArr = data.data.mapCompany;

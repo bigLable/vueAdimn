@@ -7,7 +7,7 @@
             <el-col :span="2">Logon</el-col>
             <el-col :span="3">企业简称</el-col>
             <el-col :span="1">付费</el-col>
-            <el-col :span="2">联系方式</el-col>
+            <el-col :span="2">邮箱</el-col>
             <el-col :span="1">员工数</el-col>
             <el-col :span="2">在招职位</el-col>
             <el-col :span="2">合同时间</el-col>
@@ -262,6 +262,9 @@ export default {
           url: this.$store.state.api + "/companyPay/insertCompanyPay",
           data: JSON.stringify(motaikuangObject),
           contentType: "application/json;charset=utf-8",
+          xhrFields: {
+                      withCredentials: true
+              },
           success: function(data) {
             // console.log(data)
             if (data.code == 200) {
@@ -324,6 +327,9 @@ export default {
       let that = this;
       $.ajax({
         url: this.$store.state.api + "/dict/listDict?typeId=1",
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           data.data.map((item, index) => {
             function changeColor(index) {
@@ -399,6 +405,9 @@ export default {
           diff: true,
           isPay: newVal
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.getTotal = data.data.sum;
           that.seekerArr = data.data.mapCompany;

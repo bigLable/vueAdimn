@@ -23,7 +23,7 @@ export default {
       dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
-          desc: ''
+          desc: '您好，请将小程序分享给你5个店员店长的朋友 我们会免费推荐人员，谢谢！'
         },
         formLabelWidth: '120px',
     };
@@ -40,7 +40,9 @@ export default {
           content:that.form.desc,
           employeeId:that.empId
         },
-       
+       xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
             if(data.code=="500"){
                 alert('留言失败')

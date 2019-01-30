@@ -13,7 +13,7 @@
       <el-col :span="2">头像</el-col>
       <el-col :span="2">微信昵称</el-col>
       <el-col :span="2">姓名</el-col>
-      <el-col :span="2">联系电话</el-col>
+      <el-col :span="2">电话</el-col>
       <el-col :span="2">工作职位</el-col>
       <el-col :span="2">在招职位数</el-col>
       <el-col :span="3">在招职位</el-col>
@@ -67,6 +67,9 @@ export default {
         data: {
             companyId:enterId
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data){
           that.memberList=data.data
       }
@@ -84,6 +87,9 @@ export default {
         data: {
             id:singleMemberListid
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data){
             data.code==200?alert('取消成功！'):alert('取消失败！')
            that.Memberlist()

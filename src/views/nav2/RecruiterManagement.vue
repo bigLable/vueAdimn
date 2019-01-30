@@ -27,7 +27,7 @@
             <el-col :span="2">头像</el-col>
             <!-- <el-col :span="1">微信昵称</el-col> -->
             <el-col :span="2">姓名</el-col>
-            <el-col :span="1">联系电话</el-col>
+            <el-col :span="1">电话</el-col>
             <el-col :span="1">认证方式</el-col>
             <el-col :span="2">所属机构名称</el-col>
             <el-col :span="2">工作职位</el-col>
@@ -129,6 +129,9 @@ export default {
        let that=this
        $.ajax({
         url: this.$store.state.api + "/dict/listDict?typeId=1",
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
                 console.log(data.data,'--')
         data.data.map(item=>{
@@ -176,6 +179,9 @@ export default {
           count:limit, 
           number: page
         },
+        xhrFields: {
+                      withCredentials: true
+              },
         success: function(data) {
           that.total = data.data.sum;
           that.seekerArr = data.data.data;

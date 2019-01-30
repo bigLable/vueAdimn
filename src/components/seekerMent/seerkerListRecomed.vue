@@ -17,7 +17,7 @@
        
               <el-col :span="2">招聘者</el-col>
               <el-col :span="2">招聘职位</el-col>
-              <el-col :span="2">联系电话</el-col>
+              <el-col :span="2">电话</el-col>
               <el-col :span="3">地区</el-col>
               <el-col :span="2">底薪</el-col>
               <el-col :span="3">经营品牌</el-col>
@@ -36,10 +36,10 @@
               <el-col :span="3">{{item.companyJob.address.split('区')[0]}}</el-col>
               <el-col :span="2">{{item.companyJob.baseSalaryStart}}</el-col>
               <el-col :span="3" >
-                <el-row  v-for="(item,index) in JSON.parse(item.company.brand)" :key="index">{{item}}</el-row>
+                <el-row  v-for="(item,index) in JSON.parse(item.company.brand)" :key="index">{{item ||'暂无'}}</el-row>
               
                 </el-col>
-              <el-col :span="3"> {{JSON.parse(item.companyJob.category).map(item=>{return item.parentCategoryName}).join('')}}</el-col>
+              <el-col :span="3"> {{(JSON.parse(item.companyJob.category).map(item=>{return item.parentCategoryName}).join(''))||'暂无'}}</el-col>
               <el-col :span="1"><el-button size="mini" type="primary" @click="Recommen(item.companyEmployeeMap.employeeId,item.companyJob.jobId)" >推荐</el-button></el-col>
              <router-link :to="{path:'/detailBusinessmanagement',query:{enterId:item.company.id}}" tag="a">
                 <el-button size="mini" type="primary">详情</el-button>
@@ -130,6 +130,9 @@
                 recruiterEmployeeId:employeeId,
                 seekerEmployeeId:that.seekID
             }),
+            xhrFields: {
+                      withCredentials: true
+              },
             contentType: "application/json;charset=utf-8",
             success: function (data) {
               if(data.data==true){
@@ -154,6 +157,9 @@
                 name,
                 userId:id
             },
+            xhrFields: {
+                      withCredentials: true
+              },
             success: function (data) {
               that.total=data.data.sum                   
               that.companyArr=data.data.listMap
@@ -183,7 +189,7 @@
     },
    mounted:function(){
         this.seekID=this.$route.query.seekerId
-        alert(this.$route.query.seekerId)
+       
         this.Selfscreening(this.currentSize,this.currentPage-1,undefined,undefined,undefined,undefined,this.$route.query.seekerId)
       /**
        * 调用给求职者推荐公司列表方法 
